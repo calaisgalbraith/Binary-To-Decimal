@@ -16,15 +16,20 @@ function App() {
   }
 
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [displayError, setDisplayError] = useState(false)
   useEffect(() => {
     let setDisabled = true
+    let showErrorMessage = false
     if (binaryValue !== '') { // check if binary input has value
       const re = /^[01]+$/;
       if (re.test(binaryValue)) { // check if binary input is valid (only 0 & 1) 
         setDisabled = false // if binary has input & is only 0 or 1, enable btn
+      } else {
+        showErrorMessage = true // if value not only 0 or 1, show error 
       }
     } 
-    setButtonDisabled(setDisabled)
+    setButtonDisabled(setDisabled) // disable/enable btn depending on value
+    setDisplayError(showErrorMessage) // show/hide error depending on value
 
   }, [binaryValue])
 
@@ -41,6 +46,7 @@ function App() {
             onChange={handleBinaryValueChange}
             maxLength="8"
           />
+        <span style={{ display: displayError ? 'block' : 'none' }}> Only 1 or 0 please</span>
         <button
           type="submit"
           disabled={buttonDisabled}
